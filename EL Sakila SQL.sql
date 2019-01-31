@@ -43,12 +43,10 @@ group by last_name;
 
 -- 4b. List last names of actors and the number of actors who have that last name, 
 -- but only for names that are shared by at least two actors
-
 Create view actor_count as
 select last_name, count(last_name) as 'count'
 group by last_name 
 order by count(last_name) desc;
-
 select * from actor_count
 where count >=2;
 
@@ -63,7 +61,6 @@ UPDATE sakila.actor a
 set a.first_name = 'GROUCHO'
 where a.first_name = 'HARPO';
 
-
 -- 5a. You cannot locate the schema of the `address` table. Which query would you use to re-create it?
 SHOW CREATE TABLE address;
 
@@ -73,7 +70,6 @@ From sakila.staff
 INNER JOIN sakila.address on 
 staff.address_id = address.address_id; 
 
-
 -- 6b. Use `JOIN` to display the total amount rung up by each staff member in August of 2005. Use tables `staff` and `payment`.
 select staff.staff_id, staff.first_name, staff.last_name, sum(payment.amount)
 from sakila.staff
@@ -81,7 +77,6 @@ inner join sakila.payment on
 payment.staff_id = staff.staff_id
 where payment.payment_date like '2005-08-%'
 group by payment.staff_id;
-
 
 -- 6c. List each film and the number of actors who are listed for that film. Use tables `film_actor` and `film`. Use inner join.
 select film.title as 'Title', count(film_actor.actor_id) as 'Actor Count'
@@ -105,10 +100,8 @@ customer.customer_id = payment.customer_id
 group by payment.customer_id
 order by customer.Last_Name asc;
 
-
 -- 7a. The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As an unintended consequence, films starting with the letters `K` and `Q` have also soared in popularity. 
 -- Use subqueries to display the titles of movies starting with the letters `K` and `Q` whose language is English.
-
 select title from film
 where language_id in
 (select language_id from language
@@ -116,7 +109,6 @@ where name = 'English')
 and title like 'K%' or title like 'Q%';
 
 -- 7b. Use subqueries to display all actors who appear in the film `Alone Trip`.
-
 SELECT first_name, last_name
 FROM actor
 WHERE actor_id IN
@@ -140,7 +132,6 @@ and customer_list.country = 'CANADA';
 
 
 -- 7d. Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as _family_ films.
-
 SELECT film.title, category.name
 from sakila.film
 inner join sakila.film_category on 
@@ -176,12 +167,14 @@ c.country_id = y.country_id;
 select * from sales_by_film_category
 order by total_sales desc
 limit 5;
+                                           
 -- 8a. In your new role as an executive, you would like to have an easy way of viewing the Top five genres by gross revenue. 
 -- Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
 CREATE VIEW Top_5_Genres_by_Gross_Revenue AS
 select * from sales_by_film_category
 order by total_sales desc
 limit 5;
+                                           
 -- 8b. How would you display the view that you created in 8a?
 select * from top_5_genres_by_gross_revenue;
 
